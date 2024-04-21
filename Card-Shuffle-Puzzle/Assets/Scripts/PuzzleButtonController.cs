@@ -40,6 +40,8 @@ public class PuzzleButtonController : MonoBehaviour
         GetButtons();
         ButtonListner();
         AddGamePuzzles();
+        RandomPuzzles(gamePuzzleIcons);
+
         gameGuesses = puzzleButtons.Count / 2;
     }
 
@@ -134,5 +136,16 @@ public class PuzzleButtonController : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         firstClick = secondClick = false;
+    }
+
+    private void RandomPuzzles(List<Sprite> list)
+    {
+        for(int i=0; i<list.Count; i++)
+        {
+            Sprite temp = list[i];
+            int j = Random.Range(0, list.Count);
+            list[i] = list[j];
+            list[j] = temp;
+        }
     }
 }

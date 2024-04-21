@@ -613,17 +613,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a639f6ccecd2b54a8bb82b1f0d513c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundImage: {fileID: 21300000, guid: 5b354dc5c4eaa1445854e3510216753f, type: 3}
   puzzleField: {fileID: 291427382}
   buttonPrefab: {fileID: 2207734466626149232, guid: c7f3e4a7b9a535d44bd57b8b507174de, type: 3}
   puzzleButtons: []
-  backgroundImage: {fileID: 21300000, guid: 5b354dc5c4eaa1445854e3510216753f, type: 3}
   puzzleIcons:
   - {fileID: 21300000, guid: 2bcb6d38d8b37684f95e1b63071563fb, type: 3}
   - {fileID: 21300000, guid: 5d687081ed1b1cd40b128017d1f4ea40, type: 3}
   - {fileID: 21300000, guid: e70957ef29240de48a4839a8817635d0, type: 3}
   - {fileID: 21300000, guid: 6d35ea7a43fbe3d4680ef22c9259ee75, type: 3}
   - {fileID: 21300000, guid: 91dd5970f8e312c428e85df2a6778fbd, type: 3}
-  - {fileID: 21300000, guid: eb6de317e3962dd49898a93abcf849e8, type: 3}
   - {fileID: 21300000, guid: 0a1a68ea231e8de478a54dee22bf2666, type: 3}
   - {fileID: 21300000, guid: a0562c91f268823428d64f7f0e8c4d71, type: 3}
   - {fileID: 21300000, guid: 90dd03b54ece04d448be10f135a38614, type: 3}
