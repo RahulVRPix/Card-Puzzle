@@ -15,4 +15,9 @@ public class PlayAnimation : MonoBehaviour
     {
         buttonTransition.SetTrigger("click");
     }
+
+    public void PuzzleMatched()
+    {
+        buttonTransition.SetTrigger("matched");
+    }
 }

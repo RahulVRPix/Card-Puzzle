@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class PuzzleButtonController : MonoBehaviour
 {
-    
+    public AudioClip[] audioClips;
+    public AudioSource audioSource;
 
     public Sprite backgroundImage;
     [SerializeField]
@@ -82,6 +83,9 @@ public class PuzzleButtonController : MonoBehaviour
 
     private void PuzzleClick(Button btn)
     {
+        audioSource.clip = audioClips[1];
+        audioSource.Play();
+
         PlayAnimation obj = btn.GetComponent<PlayAnimation>();
         obj.OnClickPuzzleButton();
 
@@ -111,18 +115,23 @@ public class PuzzleButtonController : MonoBehaviour
 
     IEnumerator CheckIfPuzzleMatch()
     {
-        yield return new WaitForSeconds(1);
+        PlayAnimation obj1 = puzzleButtons[firstClickIndex].GetComponent<PlayAnimation>();
+        PlayAnimation obj2 = puzzleButtons[secondClickIndex].GetComponent<PlayAnimation>();
+
+        yield return new WaitForSeconds(0.5f);
 
         if(firstClickPuzzle == secondClickPuzzle)
         {
             Debug.Log("Puzzle Matched!");
-
-            yield return new WaitForSeconds(0.5f);
+            audioSource.clip = audioClips[0];
+            audioSource.Play();
+            yield return new WaitForSeconds(0.2f);
+            //Set button interactable false
             puzzleButtons[firstClickIndex].interactable = false;
             puzzleButtons[secondClickIndex].interactable = false;
-
-            puzzleButtons[firstClickIndex].image.color = new Color(0, 0, 0, 0);
-            puzzleButtons[secondClickIndex].image.color = new Color(0, 0, 0, 0);
+            //Play puzzle matched animation
+            obj1.PuzzleMatched();
+            obj2.PuzzleMatched();
 
             countCorrectClick++;
 
@@ -133,13 +142,13 @@ public class PuzzleButtonController : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.35f);
 
             puzzleButtons[firstClickIndex].image.sprite = backgroundImage;
             puzzleButtons[secondClickIndex].image.sprite = backgroundImage;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         firstClick = secondClick = false;
     }
 
