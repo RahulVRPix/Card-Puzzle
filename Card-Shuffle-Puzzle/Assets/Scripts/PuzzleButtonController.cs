@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PuzzleButtonController : MonoBehaviour
 {
@@ -26,6 +28,22 @@ public class PuzzleButtonController : MonoBehaviour
     private int countCorrectClick;
     private int gameGuesses;
 
+    [SerializeField]
+    private TextMeshProUGUI matchTxt;
+    [SerializeField]
+    private TextMeshProUGUI turnTxt;
+    [SerializeField]
+    private TextMeshProUGUI scoreTxt;
+    [SerializeField]
+    private TextMeshProUGUI highscoreTxt;
+    [SerializeField]
+    private TextMeshProUGUI gameOverScoreTxt;
+
+    [SerializeField]
+    private GameObject scorePanel;
+    [SerializeField]
+    private GameObject gameOverPanel;
+    int scoreCount = 0;
 
     private void Awake()
     {
@@ -40,11 +58,13 @@ public class PuzzleButtonController : MonoBehaviour
 
     private void Start()
     {
+        //PlayerPrefs.DeleteAll();
+        highscoreTxt.text = PlayerPrefs.GetInt("highscore", 0).ToString();
+
         GetButtons();
         ButtonListner();
         AddGamePuzzles();
         RandomPuzzles(gamePuzzleIcons);
-
         gameGuesses = puzzleButtons.Count / 2;
     }
 
@@ -109,6 +129,8 @@ public class PuzzleButtonController : MonoBehaviour
             secondClickPuzzle = gamePuzzleIcons[secondClickIndex].name;
 
             countClick++;
+            turnTxt.text = "" + countClick;
+
             StartCoroutine(CheckIfPuzzleMatch());
         }
     }
@@ -126,18 +148,27 @@ public class PuzzleButtonController : MonoBehaviour
             audioSource.clip = audioClips[0];
             audioSource.Play();
             yield return new WaitForSeconds(0.2f);
+
             //Set button interactable false
             puzzleButtons[firstClickIndex].interactable = false;
             puzzleButtons[secondClickIndex].interactable = false;
+
             //Play puzzle matched animation
             obj1.PuzzleMatched();
             obj2.PuzzleMatched();
 
             countCorrectClick++;
+            matchTxt.text = "" + countCorrectClick;
 
-            if(countCorrectClick == gameGuesses)
+            scoreCount += 5;
+            scoreTxt.text = "" + scoreCount;            
+
+            if (countCorrectClick == gameGuesses)
             {
+                UpdateScore(scoreCount);
                 Debug.Log("Game Finished!");
+                scorePanel.SetActive(false);
+                gameOverPanel.SetActive(true);
             }
         }
         else
@@ -146,6 +177,12 @@ public class PuzzleButtonController : MonoBehaviour
 
             puzzleButtons[firstClickIndex].image.sprite = backgroundImage;
             puzzleButtons[secondClickIndex].image.sprite = backgroundImage;
+
+            if(scoreCount > 0 && scoreCount!=1)
+            {
+                scoreCount -= 2;
+                scoreTxt.text = "" + scoreCount;
+            }
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -161,5 +198,22 @@ public class PuzzleButtonController : MonoBehaviour
             list[i] = list[j];
             list[j] = temp;
         }
+    }
+
+    void UpdateScore(int score)
+    {
+        gameOverScoreTxt.text = "" + score;
+        highscoreTxt.text = PlayerPrefs.GetInt("highscore", 0).ToString();
+
+        if (score > PlayerPrefs.GetInt("highscore",0))
+        {
+            PlayerPrefs.SetInt("highscore", score);
+            highscoreTxt.text = PlayerPrefs.GetInt("highscore", 0).ToString();
+        }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene("Main");
     }
 }
