@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PuzzleButtonController : MonoBehaviour
 {
+    
+
     public Sprite backgroundImage;
     [SerializeField]
     private Transform puzzleField;
@@ -31,7 +33,7 @@ public class PuzzleButtonController : MonoBehaviour
             GameObject go = Instantiate(buttonPrefab);
             go.transform.SetParent(puzzleField, false);
             go.name = ""+i;
-
+            
         }
     }
 
@@ -60,7 +62,7 @@ public class PuzzleButtonController : MonoBehaviour
     {
         foreach(Button btn in puzzleButtons)
         {
-            btn.onClick.AddListener(() => PuzzleClick());
+            btn.onClick.AddListener(() => PuzzleClick(btn));
         }
     }
 
@@ -78,8 +80,11 @@ public class PuzzleButtonController : MonoBehaviour
         }
     }
 
-    private void PuzzleClick()
+    private void PuzzleClick(Button btn)
     {
+        PlayAnimation obj = btn.GetComponent<PlayAnimation>();
+        obj.OnClickPuzzleButton();
+
         string name = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name;
         Debug.Log("Button Clicked!!! " + name); ;
 
